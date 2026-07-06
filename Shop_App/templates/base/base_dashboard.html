@@ -1,0 +1,112 @@
+{% extends 'base/base.html' %}
+
+{% block main_layout %}
+<aside class="lte-sidebar">
+    <a href="{% url 'dashboard' %}" class="lte-brand-link">
+        <div class="bg-primary text-white d-flex align-items-center justify-content-center rounded-circle me-2" style="width: 32px; height: 32px;">
+            <b class="small">A</b>
+        </div>
+        <span class="brand-text fw-semibold fs-5">Al-Fatah POS</span>
+    </a>
+    
+    <nav class="sidebar-menu mt-3">
+    <ul class="nav flex-column">
+        
+        {% for menu in sidebar_menu %}
+            <li class="nav-item">
+                
+                {% if menu.submenus %}
+                    <a class="nav-link collapsed" data-bs-toggle="collapse" href="#menu-{{ forloop.counter }}" role="button" aria-expanded="false">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi {{ menu.icon }}"></i>
+                            <span>{{ menu.title }}</span>
+                        </div>
+                        <i class="bi bi-chevron-down small menu-open-icon"></i>
+                    </a>
+                    
+                    <div class="collapse" id="menu-{{ forloop.counter }}">
+                        <ul class="nav flex-column ms-3 ps-2 border-start border-secondary">
+                            {% for sub in menu.submenus %}
+                                <li>
+                                    <a href="#" class="nav-link py-1 mt-1" style="font-size: 0.9rem;">
+                                        <i class="bi {{ sub.icon }} small me-2"></i> {{ sub.title }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="{% url menu.url_name %}" class="nav-link">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi {{ menu.icon }}"></i>
+                            <span>{{ menu.title }}</span>
+                        </div>
+                    </a>
+                {% endif %}
+                
+            </li>
+        {% empty %}
+            <li class="text-muted small text-center mt-3">No workspace links configured.</li>
+        {% endfor %}
+
+        <li class="nav-item mt-5">
+            <a href="{% url 'logout' %}" class="nav-link text-danger">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-box-arrow-right"></i> <span>Exit Session</span>
+                </div>
+            </a>
+        </li>
+    </ul>
+</nav>
+</aside>
+
+<nav class="navbar navbar-expand lte-navbar sticky-top px-3">
+    <ul class="navbar-nav align-items-center">
+        <li class="nav-item">
+            <button class="nav-link text-dark bg-transparent border-0 px-2" id="sidebarToggle" type="button">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block"><a href="#" class="nav-link text-secondary px-3">Home</a></li>
+        <li class="nav-item d-none d-sm-inline-block"><a href="#" class="nav-link text-secondary px-3">Contact</a></li>
+    </ul>
+
+    <ul class="navbar-nav ms-auto align-items-center gap-2">
+        <li class="nav-item"><a class="nav-link text-secondary" href="#"><i class="bi bi-search fs-5"></i></a></li>
+        
+        <li class="nav-item position-relative">
+            <a class="nav-link text-secondary" href="#">
+                <i class="bi bi-chat-left-text fs-5"></i>
+                <span class="position-absolute top-1 start-60 translate-middle badge rounded-pill bg-danger src-badge" style="font-size:0.65rem; padding: 0.2rem 0.35rem;">3</span>
+            </a>
+        </li>
+
+        <li class="nav-item position-relative">
+            <a class="nav-link text-secondary" href="#">
+                <i class="bi bi-bell fs-5"></i>
+                <span class="position-absolute top-1 start-60 translate-middle badge rounded-pill bg-warning text-dark src-badge" style="font-size:0.65rem; padding: 0.2rem 0.35rem;">15</span>
+            </a>
+        </li>
+
+        <li class="nav-item dropdown ms-2">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-weight: 600; font-size: 0.8rem;">
+                    {{ request.user.username|slice:":2"|upper }}
+                </div>
+                <span class="d-none d-md-inline fw-semibold text-secondary small">{{ request.user.get_full_name|default:request.user.username }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-2">
+                <li><span class="dropdown-item-text text-muted small">Assigned Workspace: <b>{{ request.user.get_role_display }}</b></span></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger d-flex align-items-center gap-2" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Log Out</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<main class="lte-content-wrapper">
+    {% block workspace_content %}
+
+    {% endblock %}
+</main>
+{% endblock %}

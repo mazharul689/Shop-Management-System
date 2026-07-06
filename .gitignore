@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django sensitive files & environment variables
+.env
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Media and Static directories
+# (We don't want to track uploaded product images in Git)
+/media/
+/static/staticfiles/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+djangoenv/
+
+# IDE and Code Editor configs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db

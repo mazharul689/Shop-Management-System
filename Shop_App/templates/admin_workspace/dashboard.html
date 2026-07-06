@@ -1,0 +1,36 @@
+{% extends 'base/base_dashboard.html' %}
+
+{% block title %}Operational Dashboard | AdminLTE 4 Frame{% endblock %}
+
+{% block workspace_content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-sm-6">
+        <h2 class="m-0 fs-3 fw-semibold text-dark">Dashboard</h2>
+    </div>
+    <div class="col-sm-6 text-sm-end">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-sm-end mb-0 small">
+                <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="card bg-primary text-white border-0 shadow-sm position-relative overflow-hidden p-3 h-100">
+            <h3>150</h3>
+            <p class="mb-0 small opacity-75">New Orders</p>
+            <i class="bi bi-bag-fill position-absolute text-white opacity-25" style="font-size: 4.5rem; bottom: -10px; right: 10px;"></i>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="card bg-success text-white border-0 shadow-sm position-relative overflow-hidden p-3 h-100">
+            <h3>53<span class="fs-6">%</span></h3>
+            <p class="mb-0 small opacity-75">Bounce Rate</p>
+            <i class="bi bi-graph-up-arrow position-absolute text-white opacity-25" style="font-size: 4.5rem; bottom: -10px; right: 10px;"></i>
+        </div>
+    </div>
+</div>
+{% endblock %}
