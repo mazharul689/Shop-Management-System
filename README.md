@@ -207,7 +207,7 @@ The system generates:
 ### Clone Repository
 
 ```bash
-git clone https://github.com/your-username/shop-management-system.git
+git clone https://github.com/mazharul689/shop-management-system.git
 cd shop-management-system
 ```
 
