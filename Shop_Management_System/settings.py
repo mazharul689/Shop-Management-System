@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -8,12 +9,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x5@zkrp88j$pb!7nj%^-@hw(%fqngg!%h5fd$xzuu6*km+0i^@'
+# Tries to get secret key from Render environment variables, falls back to dev key locally
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-x5@zkrp88j$pb!7nj%^-@hw(%fqngg!%h5fd$xzuu6*km+0i^@')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Automatically turns off DEBUG if running on Render (where RENDER environment variable exists)
+DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = []
+
+# Dynamically add your Render URL to allowed hosts
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+else:
+    # Fallback for local development
+    ALLOWED_HOSTS.extend(['localhost', '127.0.0.1'])
 
 
 # Application definition
@@ -30,6 +41,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -105,4 +117,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Absolute path to the directory where collectstatic will collect static files for deployment
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Turn on WhiteNoise storage compression and caching support
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 AUTH_USER_MODEL = 'Shop_App.CustomUser'
