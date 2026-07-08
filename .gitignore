@@ -10,9 +10,8 @@ db.sqlite3
 db.sqlite3-journal
 
 # Media and Static directories
-# (We don't want to track uploaded product images in Git)
-/media/
-/static/staticfiles/
+media/
+staticfiles/
 
 # Virtual Environments
 venv/
