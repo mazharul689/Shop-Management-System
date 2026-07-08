@@ -35,7 +35,9 @@ def dynamic_sidebar_menu(request):
             'submenus': [
                 {'title': 'Suppliers', 'url_name': 'supplier_list', 'icon': 'bi-truck'},
                 {'title': 'Purchases', 'url_name': 'purchase_list', 'icon': 'bi-cart-check'},
-                {'title': 'Expenses', 'url_name': 'expense_list', 'icon': 'bi-wallet2'},
+                # {'title': 'Expenses', 'url_name': 'expense_list', 'icon': 'bi-wallet2'},
+                # {'title': 'Purchases', 'url_name': 'admin_dashboard', 'icon': 'bi-cart-check'},
+                {'title': 'Expenses', 'url_name': 'admin_dashboard', 'icon': 'bi-wallet2'},
             ]
         },
     ]
@@ -53,8 +55,10 @@ def dynamic_sidebar_menu(request):
             'icon': 'bi-people',
             'url_name': None,
             'submenus': [
-                {'title': 'Manage Customers', 'url_name': 'customer_list', 'icon': 'bi-person-vcard'},
-                {'title': 'Sales History', 'url_name': 'sales_history', 'icon': 'bi-clock-history'},
+                # {'title': 'Manage Customers', 'url_name': 'customer_list', 'icon': 'bi-person-vcard'},
+                # {'title': 'Sales History', 'url_name': 'sales_history', 'icon': 'bi-clock-history'},
+                {'title': 'Manage Customers', 'url_name': 'shopkeeper_dashboard', 'icon': 'bi-person-vcard'},
+                {'title': 'Sales History', 'url_name': 'shopkeeper_dashboard', 'icon': 'bi-clock-history'},
             ]
         },
     ]

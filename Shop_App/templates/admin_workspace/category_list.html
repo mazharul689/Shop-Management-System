@@ -1,0 +1,128 @@
+{% extends 'base/base_dashboard.html' %}
+
+{% block title %}Category Management | Al-Fatah POS{% endblock %}
+
+{% block workspace_content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-sm-6">
+        <h1 class="m-0 fs-3 fw-semibold text-dark">Category Management</h1>
+    </div>
+    <div class="col-sm-6 text-sm-end">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-sm-end mb-0 small">
+                <li class="breadcrumb-item"><a href="{% url 'admin_dashboard' %}" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Categories</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-12 col-lg-4">
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-white border-bottom py-3">
+                <h5 class="card-title mb-0 fw-semibold text-dark">
+                    <i class="bi bi-plus-square me-2 text-primary"></i>Add New Category
+                </h5>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.name.id_for_label }}" class="form-label small fw-bold text-secondary">
+                            Category Name
+                        </label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="text-danger small mt-1">{{ form.name.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.description.id_for_label }}" class="form-label small fw-bold text-secondary">
+                            System Description
+                        </label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div class="text-danger small mt-1">{{ form.description.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.status.id_for_label }}" class="form-label small fw-bold text-secondary">
+                            Operational Status
+                        </label>
+                        {{ form.status }}
+                        {% if form.status.errors %}
+                            <div class="text-danger small mt-1">{{ form.status.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2.5 fw-bold rounded-3 shadow-sm">
+                        <i class="bi bi-save me-2"></i>Save Category
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-8">
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0 fw-semibold text-dark">
+                    <i class="bi bi-table me-2 text-info"></i>Active Stock Categories
+                </h5>
+                <span class="badge bg-light text-secondary border px-2.5 py-1">
+                    Total: {{ categories|length }}
+                </span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-3" style="width: 8%">#</th>
+                                <th style="width: 32%">Category Name</th>
+                                <th style="width: 40%">Description</th>
+                                <th style="width: 20%">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cat in categories %}
+                            <tr>
+                                <td class="ps-3 text-secondary fw-medium">{{ forloop.counter }}</td>
+                                <td class="fw-semibold text-dark">{{ cat.name }}</td>
+                                <td class="text-muted small">
+                                    {{ cat.description|default:"No description notes recorded." }}
+                                </td>
+                                <td>
+                                    {% if cat.status %}
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 small">
+                                            Active
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1 small">
+                                            Inactive
+                                        </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-5">
+                                    <div class="mb-2">
+                                        <i class="bi bi-folder-x text-secondary opacity-50" style="font-size: 2.5rem;"></i>
+                                    </div>
+                                    <span class="d-block fw-medium text-secondary">No classification profiles saved to storage engine yet.</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

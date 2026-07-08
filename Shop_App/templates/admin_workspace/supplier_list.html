@@ -1,0 +1,110 @@
+{% extends 'base/base_dashboard.html' %}
+
+{% block title %}Supplier Management | Al-Fatah POS{% endblock %}
+
+{% block workspace_content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-sm-6">
+        <h1 class="m-0 fs-3 fw-semibold text-dark">Supplier Registry</h1>
+    </div>
+    <div class="col-sm-6 text-sm-end">
+        <span class="text-muted small">Operations &gt; Suppliers</span>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-12 col-lg-4">
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-white border-bottom py-3">
+                <h5 class="card-title mb-0 fw-semibold text-dark"><i class="bi bi-truck me-2 text-primary"></i>Add Supplier Vendor</h5>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Company Entity Name</label>
+                        {{ form.company_name }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Contact Name</label>
+                        {{ form.name }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Mobile Number</label>
+                        {{ form.mobile }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Email Address</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Warehouse Address</label>
+                        {{ form.address }}
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-secondary">Opening Accounts Payable ($)</label>
+                        {{ form.due_amount }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2.5 fw-bold rounded-3 shadow-sm">
+                        <i class="bi bi-save me-2"></i>Save Supplier
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-8">
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0 fw-semibold text-dark"><i class="bi bi-person-lines-fill me-2 text-info"></i>Active Wholesalers Ledger</h5>
+                <span class="badge bg-light text-secondary border">Vendors: {{ suppliers|length }}</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-3">Company / Agent</th>
+                                <th>Contact Channels</th>
+                                <th>Address</th>
+                                <th class="pe-3 text-end">Total Dues</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for supplier in suppliers %}
+                            <tr>
+                                <td class="ps-3">
+                                    <span class="d-block fw-bold text-dark">{{ supplier.company_name }}</span>
+                                    <span class="text-muted small"><i class="bi bi-person me-1"></i>{{ supplier.name }}</span>
+                                </td>
+                                <td class="small text-secondary">
+                                    <span class="d-block"><i class="bi bi-phone me-1"></i>{{ supplier.mobile }}</span>
+                                    <span class="d-block"><i class="bi bi-envelope me-1"></i>{{ supplier.email|default:"--" }}</span>
+                                </td>
+                                <td class="text-muted small">{{ supplier.address|default:"--" }}</td>
+                                <td class="pe-3 text-end">
+                                    {% if supplier.due_amount > 0 %}
+                                        <span class="text-danger fw-bold">${{ supplier.due_amount }}</span>
+                                    {% else %}
+                                        <span class="text-success fw-medium">$0.00</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-5">
+                                    <i class="bi bi-building-x fs-1 d-block mb-2 opacity-50"></i>
+                                    No trading suppliers listed yet.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

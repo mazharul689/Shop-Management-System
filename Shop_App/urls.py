@@ -16,4 +16,13 @@ urlpatterns = [
     # Clean, role-prefixed dashboard workspaces
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('shopkeeper/dashboard/', views.shopkeeper_dashboard, name='shopkeeper_dashboard'),
+
+    # Master data 
+    path('admin/categories/', views.category_list, name='category_list'),
+    path('admin/brands/', views.brand_list, name='brand_list'),
+    path('admin/units/', views.unit_list, name='unit_list'),
+    path('admin/products/', views.product_list, name='product_list'),
+    path('admin/suppliers/', views.supplier_list, name='supplier_list'),
+    path('admin/purchases/', views.purchase_list, name='purchase_list'),
+    path('admin/purchases/new/', views.purchase_create, name='purchase_create'),
 ]
